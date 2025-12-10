@@ -7,14 +7,14 @@ from torchvision import transforms
 from PIL import Image
 import numpy as np
 import cv2
-from models.PLDNet import PLDNet
+from models.PLLNet import PLLNet
 from utils.postprocessPLDU import convert_predictions_to_lines, lines_to_vis_and_mask
 from utils.postprocessTTPLA import convert_predictions_to_lines_ttpla, lines_to_vis_and_mask_ttpla
 
 
-def load_model(dataset: str, device: torch.device) -> PLDNet:
+def load_model(dataset: str, device: torch.device) -> PLLNet:
     """
-    Select the corresponding checkpoint based on the dataset and load PLDNet.
+    Select the corresponding checkpoint based on the dataset and load PLLNet.
     """
     ckpt_map = {
         "pldu": "checkpoints/bestpldu.pth",
@@ -24,7 +24,7 @@ def load_model(dataset: str, device: torch.device) -> PLDNet:
     if not os.path.exists(ckpt_path):
         raise FileNotFoundError(f"Checkpoint not found: {ckpt_path}")
 
-    model = PLDNet(
+    model = PLLNet(
         num_lines=10,
         pretrained_backbone=False,
         pretrained_path=None,
@@ -68,7 +68,7 @@ def choose_default_image(dataset: str) -> str:
     return os.path.join(folder, candidates[0])
 
 
-def run_inference_single(model: PLDNet,
+def run_inference_single(model: PLLNet,
                          img_path: str,
                          dataset: str,
                          device: torch.device,
